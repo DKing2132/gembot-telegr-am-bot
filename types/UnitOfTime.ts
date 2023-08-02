@@ -1,0 +1,1 @@
+export type UnitOfTime = 'HOURS' | 'DAYS' | 'WEEKS' | 'MONTHS';

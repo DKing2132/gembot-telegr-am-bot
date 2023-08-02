@@ -1,0 +1,9 @@
+const api = '/api';
+export const order = `${api}/order`;
+export const buy = `${order}/buy`;
+export const sell = `${order}/sell`;
+export const link = `${api}/link`;
+export const collect = `${api}/collect`;
+export const wallet = `${api}/user/wallet`;
+export const trackJob = `${order}/job`;
+export const tokenAPIRoute = `${api}/token`;
