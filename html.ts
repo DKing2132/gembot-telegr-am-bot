@@ -71,10 +71,11 @@ export const generateStartingMenuHTML = (
   networkScanLink: string
 ) => {
   return `
-<b>💎     GemBot     💎</b>
+💎 <b>Welcome to GemBot!</b>💎
 
-
-Welcome to GemBot! Setup your decentralized DCA orders supported by Uniswap pools. Try out our Instant Buy and Sell features for the fastest transactions.
+We've created 3 wallets for you automatically to get you started. Your private keys are encrypted and can be accessed via settings.
+  
+You can now create a DCA order or instant buy/sells 👇
 
 
 ===== <b> Your Wallets </b> =====
