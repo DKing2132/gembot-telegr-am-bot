@@ -210,7 +210,7 @@ export const generateActiveOrdersHTML = async (
 `;
 
   if (orders.wallet1Orders.length > 0) {
-    orders.wallet1Orders.forEach(async (order) => {
+    for (const order of orders.wallet1Orders) {
       text += `
 <b>Order ID</b>: <code>${order.orderID}</code>
 <b>Deposited Token</b>: ${await getTokenName(
@@ -226,7 +226,7 @@ export const generateActiveOrdersHTML = async (
 <b>Frequency</b>: ${order.frequency}
 
 `;
-    });
+    }
   } else {
     text += '\nNo orders found.\n';
   }
@@ -236,7 +236,7 @@ export const generateActiveOrdersHTML = async (
   `;
 
   if (orders.wallet2Orders.length > 0) {
-    orders.wallet2Orders.forEach(async (order) => {
+    for (const order of orders.wallet2Orders) {
       text += `
 <b>Order ID</b>: <code>${order.orderID}</code>
 <b>Deposited Token</b>: ${await getTokenName(
@@ -252,7 +252,7 @@ export const generateActiveOrdersHTML = async (
 <b>Frequency</b>: ${order.frequency}
 
 `;
-    });
+    }
   } else {
     text += '\nNo orders found.\n';
   }
@@ -262,7 +262,7 @@ export const generateActiveOrdersHTML = async (
   `;
 
   if (orders.wallet3Orders.length > 0) {
-    orders.wallet3Orders.forEach(async (order) => {
+    for (const order of orders.wallet3Orders) {
       text += `
 <b>Order ID</b>: <code>${order.orderID}</code>
 <b>Deposited Token</b>: ${await getTokenName(
@@ -278,7 +278,7 @@ export const generateActiveOrdersHTML = async (
 <b>Frequency</b>: ${order.frequency}
 
 `;
-    });
+    }
   } else {
     text += '\nNo orders found.\n';
   }
