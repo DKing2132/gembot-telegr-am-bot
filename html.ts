@@ -71,11 +71,11 @@ export const generateStartingMenuHTML = (
   networkScanLink: string
 ) => {
   return `
-💎 <b>Welcome to GemBot!</b>💎
+💎 <b>Welcome to GemBot!</b> 💎
 
 We've created 3 wallets for you automatically to get you started. Your private keys are encrypted and can be accessed via settings.
   
-You can now create a DCA order or instant buy/sells 👇
+You can now create a DCA order or instant buys/sells 👇
 
 
 ===== <b> Your Wallets </b> =====
