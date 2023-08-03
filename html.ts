@@ -232,7 +232,7 @@ export const generateActiveOrdersHTML = async (
   }
 
   text += `
-  ===== <b>Wallet 2</b> =====
+===== <b>Wallet 2</b> =====
   `;
 
   if (orders.wallet2Orders.length > 0) {
@@ -258,7 +258,7 @@ export const generateActiveOrdersHTML = async (
   }
 
   text += `
-  ===== <b>Wallet 3</b> =====
+===== <b>Wallet 3</b> =====
   `;
 
   if (orders.wallet3Orders.length > 0) {
