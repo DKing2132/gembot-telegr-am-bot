@@ -11,6 +11,7 @@ import { startMenu } from '../../menu/startMenu';
 import { link } from '../../routes';
 import { backToMenuButton } from '../../keyboard/backToMenuButton';
 import { ErrorMessage } from '../../types/responses/ErrorMessage';
+import { fetchWithTimeout } from '../../network';
 
 export const settingsLinkWalletConfirmScene = new Scenes.BaseScene<DCAContext>(
   'settings_linkwallet_confirm'
@@ -51,7 +52,7 @@ settingsLinkWalletConfirmScene.action(
   'settings_linkwallet_yes',
   async (ctx) => {
     try {
-      const response = await fetch(`${process.env.API_URL}${link}`, {
+      const response = await fetchWithTimeout(`${process.env.API_URL}${link}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

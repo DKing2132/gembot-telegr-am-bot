@@ -11,6 +11,7 @@ import { GetAllOrdersResponse } from '../../types/responses/GetAllOrdersResponse
 import { backToMenuButton } from '../../keyboard/backToMenuButton';
 import { ErrorMessage } from '../../types/responses/ErrorMessage';
 import { startMenu } from '../../menu/startMenu';
+import { fetchWithTimeout } from '../../network';
 
 export const activeOrdersScene = new Scenes.BaseScene<DCAContext>(
   'activeorders'
@@ -18,7 +19,7 @@ export const activeOrdersScene = new Scenes.BaseScene<DCAContext>(
 
 activeOrdersScene.enter(async (ctx) => {
   try {
-    const response = await fetch(`${process.env.API_URL}${order}`, {
+    const response = await fetchWithTimeout(`${process.env.API_URL}${order}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

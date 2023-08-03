@@ -14,6 +14,7 @@ import { ErrorMessage } from '../../types/responses/ErrorMessage';
 import { startMenu } from '../../menu/startMenu';
 import { JobResponse } from '../../types/responses/JobResponse';
 import { JobStatusResponse } from '../../types/responses/JobStatusResponse';
+import { fetchWithTimeout } from '../../network';
 
 export const buyConfirmScene = new Scenes.BaseScene<DCAContext>('buy_confirm');
 
@@ -39,7 +40,7 @@ buyConfirmScene.action('buy_back', async (ctx) => {
 buyConfirmScene.action('buy_confirm', async (ctx) => {
   await temporaryHTMLReply(ctx, generatePleaseWaitHTML());
   try {
-    const response = await fetch(`${process.env.API_URL}${buy}`, {
+    const response = await fetchWithTimeout(`${process.env.API_URL}${buy}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ buyConfirmScene.action('buy_confirm', async (ctx) => {
       const timer = setInterval(async () => {
         console.log('polling for job status');
         try {
-          const jobResponse = await fetch(
+          const jobResponse = await fetchWithTimeout(
             `${process.env.API_URL}${trackJob}?id=${buyResponse.message}`,
             {
               headers: {

@@ -11,6 +11,7 @@ import { startMenu } from '../../menu/startMenu';
 import { order } from '../../routes';
 import { backToMenuButton } from '../../keyboard/backToMenuButton';
 import { ErrorMessage } from '../../types/responses/ErrorMessage';
+import { fetchWithTimeout } from '../../network';
 
 export const deleteOrderConfirmScene = new Scenes.BaseScene<DCAContext>(
   'deleteorder_confirm'
@@ -34,7 +35,7 @@ deleteOrderConfirmScene.enter(async (ctx) => {
 
 deleteOrderConfirmScene.action('deleteorder_confirm', async (ctx) => {
   try {
-    const response = await fetch(`${process.env.API_URL}${order}`, {
+    const response = await fetchWithTimeout(`${process.env.API_URL}${order}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

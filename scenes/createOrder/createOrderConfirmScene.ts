@@ -12,6 +12,7 @@ import { order } from '../../routes';
 import { OrderResponse } from '../../types/responses/OrderResponse';
 import { ErrorMessage } from '../../types/responses/ErrorMessage';
 import { temporaryHTMLReply } from '../../replies';
+import { fetchWithTimeout } from '../../network';
 
 export const createOrderConfirmScene = new Scenes.BaseScene<DCAContext>(
   'createorder_confirm'
@@ -38,7 +39,7 @@ createOrderConfirmScene.action('createorder_back', async (ctx) => {
 
 createOrderConfirmScene.action('createorder_confirm', async (ctx) => {
   try {
-    const response = await fetch(`${process.env.API_URL}${order}`, {
+    const response = await fetchWithTimeout(`${process.env.API_URL}${order}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

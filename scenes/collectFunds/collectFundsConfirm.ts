@@ -47,6 +47,7 @@ collectFundsConfirmScene.action('collectfunds_cancel', async (ctx) => {
 collectFundsConfirmScene.action('collectfunds_confirm', async (ctx) => {
   await temporaryHTMLReply(ctx, generatePleaseWaitHTML());
   try {
+    // change to fetch with timeout once we add in worker
     const response = await fetch(`${process.env.API_URL}${collect}`, {
       method: 'POST',
       headers: {

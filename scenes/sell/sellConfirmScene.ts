@@ -14,6 +14,7 @@ import { ErrorMessage } from '../../types/responses/ErrorMessage';
 import { backToMenuButton } from '../../keyboard/backToMenuButton';
 import { JobResponse } from '../../types/responses/JobResponse';
 import { JobStatusResponse } from '../../types/responses/JobStatusResponse';
+import { fetchWithTimeout } from '../../network';
 
 export const sellConfirmScene = new Scenes.BaseScene<DCAContext>(
   'sell_confirm'
@@ -55,7 +56,7 @@ sellConfirmScene.action('sell_back_to_menu', async (ctx) => {
 sellConfirmScene.action('sell_confirm', async (ctx) => {
   await temporaryHTMLReply(ctx, generatePleaseWaitHTML());
   try {
-    const response = await fetch(`${process.env.API_URL}${sell}`, {
+    const response = await fetchWithTimeout(`${process.env.API_URL}${sell}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -70,7 +71,7 @@ sellConfirmScene.action('sell_confirm', async (ctx) => {
       const timer = setInterval(async () => {
         console.log('polling for job status');
         try {
-          const jobResponse = await fetch(
+          const jobResponse = await fetchWithTimeout(
             `${process.env.API_URL}${trackJob}?id=${sellResponse.message}`,
             {
               headers: {

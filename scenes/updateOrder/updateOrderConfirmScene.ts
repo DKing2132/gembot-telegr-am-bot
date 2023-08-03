@@ -10,6 +10,7 @@ import { order } from '../../routes';
 import { backToMenuButton } from '../../keyboard/backToMenuButton';
 import { ErrorMessage } from '../../types/responses/ErrorMessage';
 import { startMenu } from '../../menu/startMenu';
+import { fetchWithTimeout } from '../../network';
 
 export const updateOrderConfirmScene = new Scenes.BaseScene<DCAContext>(
   'updateorder_confirm'
@@ -33,7 +34,7 @@ updateOrderConfirmScene.action('updateorder_back', async (ctx) => {
 
 updateOrderConfirmScene.action('updateorder_confirm', async (ctx) => {
   try {
-    const response = await fetch(`${process.env.API_URL}${order}`, {
+    const response = await fetchWithTimeout(`${process.env.API_URL}${order}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

@@ -5,6 +5,7 @@ import { temporaryHTMLReply } from '../replies';
 import { wallet } from '../routes';
 import { GetWalletResponse } from '../types/responses/GetWalletResponse';
 import { backButton } from '../keyboard/backButton';
+import { fetchWithTimeout } from '../network';
 
 export class WalletHelper {
   // wallet index is 1-based
@@ -16,7 +17,7 @@ export class WalletHelper {
     back_action: string
   ) {
     try {
-      const response = await fetch(
+      const response = await fetchWithTimeout(
         `${process.env.API_URL}${wallet}?wallet=${walletIndex}`,
         {
           method: 'GET',

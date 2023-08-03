@@ -10,6 +10,7 @@ import { BuySellOrder } from './types/BuyOrder';
 import { CollectFunds } from './types/CollectFunds';
 import { tokenAPIRoute } from './routes';
 import { TokenResponse } from './types/responses/TokenResponse';
+import { fetchWithTimeout } from './network';
 
 const unitOfTimeConverter = (unitOfTime: UnitOfTime) => {
   if (unitOfTime === 'HOURS') {
@@ -37,7 +38,7 @@ const getTokenName = async (tokenAddress: string, isNativeETH: boolean) => {
     return 'DAI';
   } else {
     try {
-      const response = await fetch(
+      const response = await fetchWithTimeout(
         `${process.env.API_URL}${tokenAPIRoute}?address=${tokenAddress}`,
         {
           method: 'GET',
