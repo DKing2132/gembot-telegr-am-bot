@@ -611,6 +611,15 @@ There was an error retrieving your wallet. Please try again later.
 `;
 };
 
+const getDateInNiceFormat = (date: string) => {
+  return new Date(date).toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
 export const generateOrderStatusesHTML = async (
   orderStatuses: OrderStatusHistoryResponse
 ) => {
@@ -636,18 +645,8 @@ export const generateOrderStatusesHTML = async (
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
 <b>Transactions Remaining</b>: ${order.frequency}
 <b>Status</b>: ${order.status} - ${order.message}
-<b>Last Updated</b>: ${order.lastUpdatedAt.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })}
-<b>Next Update</b>: ${order.nextUpdateAt.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })}
+<b>Last Updated</b>: ${getDateInNiceFormat(order.lastUpdatedAt)}
+<b>Next Update</b>: ${getDateInNiceFormat(order.nextUpdateAt)}
 
 `;
     }
@@ -675,18 +674,8 @@ export const generateOrderStatusesHTML = async (
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
 <b>Transactions Remaining</b>: ${order.frequency}
 <b>Status</b>: ${order.status} - ${order.message}
-<b>Last Updated</b>: ${order.lastUpdatedAt.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })}
-<b>Next Update</b>: ${order.nextUpdateAt.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })}
+<b>Last Updated</b>: ${getDateInNiceFormat(order.lastUpdatedAt)}
+<b>Next Update</b>: ${getDateInNiceFormat(order.nextUpdateAt)}
 
 `;
     }
@@ -714,18 +703,8 @@ export const generateOrderStatusesHTML = async (
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
 <b>Transactions Remaining</b>: ${order.frequency}
 <b>Status</b>: ${order.status} - ${order.message}
-<b>Last Updated</b>: ${order.lastUpdatedAt.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })}
-<b>Next Update</b>: ${order.nextUpdateAt.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })}
+<b>Last Updated</b>: ${getDateInNiceFormat(order.lastUpdatedAt)}
+<b>Next Update</b>: ${getDateInNiceFormat(order.nextUpdateAt)}
 
 `;
     }

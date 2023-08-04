@@ -12,8 +12,8 @@ export type OrderStatusTrack = {
   depositedTokenAddress: string;
   desiredTokenAddress: string;
   depositedTokenAmount: number;
-  lastUpdatedAt: Date;
-  nextUpdateAt: Date;
+  lastUpdatedAt: string;
+  nextUpdateAt: string;
   unitOfTime: UnitOfTime;
   frequency: number;
   walletOwnerAddress: string;
