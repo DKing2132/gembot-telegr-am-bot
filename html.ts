@@ -224,9 +224,9 @@ export const generateActiveOrdersHTML = async (
         order.desiredTokenAddress,
         order.isNativeETH
       )}
-<b>Deposited Amount</b>: ${order.depositedTokenAmount}
+<b>Remaining Deposited Amount</b>: ${order.depositedTokenAmount}
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
-<b>Frequency</b>: ${order.frequency}
+<b>Transactions Remaining</b>: ${order.frequency}
 
 `;
     }
@@ -250,9 +250,9 @@ export const generateActiveOrdersHTML = async (
         order.desiredTokenAddress,
         order.isNativeETH
       )}
-<b>Deposited Amount</b>: ${order.depositedTokenAmount}
+<b>Remaining Deposited Amount</b>: ${order.depositedTokenAmount}
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
-<b>Frequency</b>: ${order.frequency}
+<b>Transactions Remaining</b>: ${order.frequency}
 
 `;
     }
@@ -276,9 +276,9 @@ export const generateActiveOrdersHTML = async (
         order.desiredTokenAddress,
         order.isNativeETH
       )}
-<b>Deposited Amount</b>: ${order.depositedTokenAmount}
+<b>Remaining Deposited Amount</b>: ${order.depositedTokenAmount}
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
-<b>Frequency</b>: ${order.frequency}
+<b>Transactions Remaining</b>: ${order.frequency}
 
 `;
     }
