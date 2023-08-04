@@ -612,15 +612,7 @@ There was an error retrieving your wallet. Please try again later.
 };
 
 const getDateInNiceFormat = (date: string) => {
-  return new Date(date).toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour12: true,
-    hour: 'numeric',
-    minute: 'numeric',
-  });
+  return new Date(date).toLocaleString();
 };
 
 export const generateOrderStatusesHTML = async (
