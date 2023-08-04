@@ -167,6 +167,8 @@ Please confirm your order:
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime!)}
 <b>Frequency</b>: ${order.frequency}
 <b>Wallet</b>: ${order.walletOwnerAddress}
+
+⚠️ <i>Please make sure you have enough ETH to cover gas for transactions</i> ⚠️
 `;
 };
 
@@ -362,6 +364,11 @@ Are you sure you want to update the following order:
       : order.value
   }
 
+${
+  order.field === 'depositedTokenAmount'
+    ? '⚠️ <i>Please make sure you have enough ETH to cover gas for transactions</i> ⚠️'
+    : ''
+}
 `;
 };
 
@@ -408,6 +415,8 @@ Are you sure you want to perform the following buy:
     buyOrder.desiredTokenAddress!,
     buyOrder.isNativeETH!
   )}
+
+⚠️ <i>Please make sure you have enough ETH to cover gas for transactions</i> ⚠️
 `;
 };
 
@@ -465,6 +474,8 @@ Are you sure you want to perform the following sell:
     sellOrder.desiredTokenAddress!,
     sellOrder.isNativeETH!
   )}
+
+⚠️ <i>Please make sure you have enough ETH to cover gas for transactions</i> ⚠️
 `;
 };
 
