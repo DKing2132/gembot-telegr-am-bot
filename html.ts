@@ -612,12 +612,14 @@ There was an error retrieving your wallet. Please try again later.
 };
 
 const getDateInNiceFormat = (date: string) => {
-  const utcDate = new Date(date);
-
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  return utcDate.toLocaleString(undefined, {
-    timeZone: userTimezone,
+  return new Date(date).toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour12: true,
+    hour: 'numeric',
+    minute: 'numeric',
   });
 };
 
@@ -646,8 +648,8 @@ export const generateOrderStatusesHTML = async (
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
 <b>Transactions Remaining</b>: ${order.frequency}
 <b>Status</b>: ${order.status} - ${order.message}
-<b>Last Updated</b>: ${getDateInNiceFormat(order.lastUpdatedAt)}
-<b>Next Update</b>: ${getDateInNiceFormat(order.nextUpdateAt)}
+<b>Last Updated (UTC)</b>: ${getDateInNiceFormat(order.lastUpdatedAt)}
+<b>Next Update (UTC)</b>: ${getDateInNiceFormat(order.nextUpdateAt)}
 
 `;
     }
@@ -675,8 +677,8 @@ export const generateOrderStatusesHTML = async (
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
 <b>Transactions Remaining</b>: ${order.frequency}
 <b>Status</b>: ${order.status} - ${order.message}
-<b>Last Updated</b>: ${getDateInNiceFormat(order.lastUpdatedAt)}
-<b>Next Update</b>: ${getDateInNiceFormat(order.nextUpdateAt)}
+<b>Last Updated (UTC)</b>: ${getDateInNiceFormat(order.lastUpdatedAt)}
+<b>Next Update (UTC)</b>: ${getDateInNiceFormat(order.nextUpdateAt)}
 
 `;
     }
@@ -704,8 +706,8 @@ export const generateOrderStatusesHTML = async (
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
 <b>Transactions Remaining</b>: ${order.frequency}
 <b>Status</b>: ${order.status} - ${order.message}
-<b>Last Updated</b>: ${getDateInNiceFormat(order.lastUpdatedAt)}
-<b>Next Update</b>: ${getDateInNiceFormat(order.nextUpdateAt)}
+<b>Last Updated (UTC)</b>: ${getDateInNiceFormat(order.lastUpdatedAt)}
+<b>Next Update (UTC)</b>: ${getDateInNiceFormat(order.nextUpdateAt)}
 
 `;
     }
