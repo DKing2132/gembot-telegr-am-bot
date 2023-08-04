@@ -11,6 +11,7 @@ import { CollectFunds } from './types/CollectFunds';
 import { tokenAPIRoute } from './routes';
 import { TokenResponse } from './types/responses/TokenResponse';
 import { fetchWithTimeout } from './network';
+import { OrderStatusHistoryResponse } from './types/responses/OrderStatusHistoryResponse';
 
 const unitOfTimeConverter = (unitOfTime: UnitOfTime) => {
   if (unitOfTime === 'HOURS') {
@@ -607,5 +608,139 @@ export const generateErrorRetrievingWalletHTML = () => {
 ❌ <b>Error Retrieving Wallet</b> ❌
 
 There was an error retrieving your wallet. Please try again later.
+`;
+};
+
+export const generateOrderStatusesHTML = async (
+  orderStatuses: OrderStatusHistoryResponse
+) => {
+  let text = `
+🚀 <b>Order Statuses</b> 🚀
+
+===== <b>Wallet 1</b> =====
+`;
+
+  if (orderStatuses.wallet1Orders.length > 0) {
+    for (const order of orderStatuses.wallet1Orders) {
+      text += `
+<b>Order ID</b>: <code>${order.orderId}</code>
+<b>Deposited Token</b>: ${await getTokenName(
+        order.depositedTokenAddress,
+        order.isNativeETH
+      )}
+<b>Desired Token</b>: ${await getTokenName(
+        order.desiredTokenAddress,
+        order.isNativeETH
+      )}
+<b>Remaining Deposited Amount</b>: ${order.depositedTokenAmount}
+<b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
+<b>Transactions Remaining</b>: ${order.frequency}
+<b>Status</b>: ${order.status} - ${order.message}
+<b>Last Updated</b>: ${order.lastUpdatedAt.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}
+<b>Next Update</b>: ${order.nextUpdateAt.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}
+
+`;
+    }
+  } else {
+    text += '\nNo orders found.\n';
+  }
+
+  text += `
+===== <b>Wallet 2</b> =====
+  `;
+
+  if (orderStatuses.wallet2Orders.length > 0) {
+    for (const order of orderStatuses.wallet2Orders) {
+      text += `
+<b>Order ID</b>: <code>${order.orderId}</code>
+<b>Deposited Token</b>: ${await getTokenName(
+        order.depositedTokenAddress,
+        order.isNativeETH
+      )}
+<b>Desired Token</b>: ${await getTokenName(
+        order.desiredTokenAddress,
+        order.isNativeETH
+      )}
+<b>Remaining Deposited Amount</b>: ${order.depositedTokenAmount}
+<b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
+<b>Transactions Remaining</b>: ${order.frequency}
+<b>Status</b>: ${order.status} - ${order.message}
+<b>Last Updated</b>: ${order.lastUpdatedAt.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}
+<b>Next Update</b>: ${order.nextUpdateAt.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}
+
+`;
+    }
+  } else {
+    text += '\nNo orders found.\n';
+  }
+
+  text += `
+===== <b>Wallet 3</b> =====
+  `;
+
+  if (orderStatuses.wallet3Orders.length > 0) {
+    for (const order of orderStatuses.wallet3Orders) {
+      text += `
+<b>Order ID</b>: <code>${order.orderId}</code>
+<b>Deposited Token</b>: ${await getTokenName(
+        order.depositedTokenAddress,
+        order.isNativeETH
+      )}
+<b>Desired Token</b>: ${await getTokenName(
+        order.desiredTokenAddress,
+        order.isNativeETH
+      )}
+<b>Remaining Deposited Amount</b>: ${order.depositedTokenAmount}
+<b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
+<b>Transactions Remaining</b>: ${order.frequency}
+<b>Status</b>: ${order.status} - ${order.message}
+<b>Last Updated</b>: ${order.lastUpdatedAt.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}
+<b>Next Update</b>: ${order.nextUpdateAt.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}
+
+`;
+    }
+  } else {
+    text += '\nNo orders found.\n';
+  }
+
+  return text;
+};
+
+export const generateOrderStatusesFailedHTML = (message: string) => {
+  return `
+❌ <b>Failed to retrieve order statuses</b> ❌
+
+<b>Reason</b>: ${message}
+
 `;
 };

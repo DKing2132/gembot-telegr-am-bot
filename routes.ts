@@ -7,3 +7,4 @@ export const collect = `${api}/collect`;
 export const wallet = `${api}/user/wallet`;
 export const trackJob = `${order}/job`;
 export const tokenAPIRoute = `${api}/token`;
+export const orderStatus = `${order}/status`;

@@ -43,6 +43,7 @@ import { collectFundsWalletScene } from './scenes/collectFunds/collectFundsWalle
 import { collectFundsConfirmScene } from './scenes/collectFunds/collectFundsConfirm';
 import { settingsLinkWalletScene } from './scenes/settings/settingsLinkWalletScene';
 import { settingsLinkWalletConfirmScene } from './scenes/settings/settingsLinkWalletConfirmScene';
+import { orderStatusScene } from './scenes/orderStatus/orderStatusScene';
 
 const bot = new Telegraf<DCAContext>(token);
 bot.telegram.setMyCommands([
@@ -90,6 +91,7 @@ const dcaStage = new Scenes.Stage<DCAContext>(
     settingsScene,
     settingsLinkWalletScene,
     settingsLinkWalletConfirmScene,
+    orderStatusScene,
   ],
   {
     ttl: 1000000,
@@ -157,6 +159,11 @@ bot.action('activeorders', async (ctx) => {
 bot.action('settings', async (ctx) => {
   await ctx.scene.leave();
   await ctx.scene.enter('settings');
+});
+
+bot.action('orderstatus', async (ctx) => {
+  await ctx.scene.leave();
+  await ctx.scene.enter('orderstatus');
 });
 
 if (nodeEnv === 'production') {

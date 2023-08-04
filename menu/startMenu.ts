@@ -52,18 +52,17 @@ export const startMenu = async (ctx: Context) => {
     Markup.inlineKeyboard([
       [
         Markup.button.callback('Create Order', 'createorder'),
-        Markup.button.callback('Collect Funds', 'collectfunds'),
-      ],
-      [
         Markup.button.callback('Instant Buy', 'buy'),
         Markup.button.callback('Instant Sell', 'sell'),
       ],
       [
         Markup.button.callback('Update Order', 'updateorder'),
         Markup.button.callback('Delete Order', 'deleteorder'),
+        Markup.button.callback('Collect Funds', 'collectfunds'),
       ],
       [
         Markup.button.callback('Active Orders', 'activeorders'),
+        Markup.button.callback('DCA Status', 'orderstatus'),
         Markup.button.callback('Settings', 'settings'),
       ],
     ])
