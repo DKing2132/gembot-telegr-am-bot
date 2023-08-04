@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("HEROKU_POSTGRESQL_CHARCOAL_URL")
+  url      = env("HEROKU_POSTGRESQL_WHITE_URL")
 }
 
 model Order {
@@ -22,6 +22,7 @@ model Order {
   nextUpdateAt DateTime @default(now())
   unitOfTime String
   frequency Int
+  retryCount Int @default(0)
   user User @relation(fields: [userId], references: [id])
   userId String
   status OrderStatus[]
@@ -49,4 +50,10 @@ model OrderStatus {
   orderId String @unique
   order Order @relation(fields: [orderId], references: [orderId])
   inQueue Boolean
+}
+
+model Token {
+  address String @unique
+  name String
+  symbol String
 }
