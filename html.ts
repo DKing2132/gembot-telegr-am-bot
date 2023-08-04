@@ -612,7 +612,13 @@ There was an error retrieving your wallet. Please try again later.
 };
 
 const getDateInNiceFormat = (date: string) => {
-  return new Date(date).toLocaleString();
+  const utcDate = new Date(date);
+
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  return utcDate.toLocaleString(undefined, {
+    timeZone: userTimezone,
+  });
 };
 
 export const generateOrderStatusesHTML = async (
