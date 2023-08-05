@@ -40,7 +40,7 @@ orderStatusScene.enter(async (ctx) => {
         Markup.inlineKeyboard([
           [
             Markup.button.callback(
-              'Clear Finished Orders',
+              'Clear Non-Pending Orders',
               'orderstatus_clear_non_existing'
             ),
           ],
