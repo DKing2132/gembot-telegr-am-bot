@@ -7,11 +7,14 @@ import { OrderStatusHistoryResponse } from '../../types/responses/OrderStatusHis
 import { temporaryHTMLReply } from '../../replies';
 import {
   generateFailedGetActiveOrdersHTML,
+  generateOrderStatusFailedClearHTML,
+  generateOrderStatusSuccessClearWithMsgHTML,
   generateOrderStatusesFailedHTML,
   generateOrderStatusesHTML,
 } from '../../html';
 import { backToMenuButton } from '../../keyboard/backToMenuButton';
 import { ErrorMessage } from '../../types/responses/ErrorMessage';
+import { SuccessMessage } from '../../types/responses/SuccessMessage';
 
 export const orderStatusScene = new Scenes.BaseScene<DCAContext>('orderstatus');
 
@@ -34,7 +37,15 @@ orderStatusScene.enter(async (ctx) => {
       await temporaryHTMLReply(
         ctx,
         await generateOrderStatusesHTML(orderStatuses),
-        Markup.inlineKeyboard([backToMenuButton('orderstatus_back_to_menu')])
+        Markup.inlineKeyboard([
+          [
+            Markup.button.callback(
+              'Clear Finished Orders',
+              'orderstatus_clear_non_existing'
+            ),
+          ],
+          [backToMenuButton('orderstatus_back_to_menu')],
+        ])
       );
     } else {
       const error: ErrorMessage = await response.json();
@@ -53,6 +64,44 @@ orderStatusScene.enter(async (ctx) => {
       Markup.inlineKeyboard([backToMenuButton('orderstatus_back_to_menu')])
     );
   }
+});
+
+orderStatusScene.action('orderstatus_clear_non_existing', async (ctx) => {
+  try {
+    const response = await fetchWithTimeout(
+      `${process.env.API_URL}${orderStatus}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'genesis-bot-user-id': ctx.from!.id.toString(),
+        },
+      }
+    );
+
+    if (response.ok) {
+      const successMessage: SuccessMessage = await response.json();
+      await temporaryHTMLReply(
+        ctx,
+        generateOrderStatusSuccessClearWithMsgHTML(successMessage.message)
+      );
+    } else {
+      const error: ErrorMessage = await response.json();
+      console.log(error);
+      await temporaryHTMLReply(
+        ctx,
+        generateOrderStatusFailedClearHTML(error.message)
+      );
+    }
+  } catch (error) {
+    console.log(error);
+    await temporaryHTMLReply(
+      ctx,
+      generateOrderStatusFailedClearHTML('Unknown error.')
+    );
+  }
+
+  await ctx.scene.reenter();
 });
 
 orderStatusScene.action('orderstatus_back_to_menu', async (ctx) => {

@@ -726,3 +726,21 @@ export const generateOrderStatusesFailedHTML = (message: string) => {
 
 `;
 };
+
+export const generateOrderStatusSuccessClearWithMsgHTML = (message: string) => {
+  return `
+🚀 <b>Order Status Clear</b> 🚀
+
+${message}
+
+`;
+};
+
+export const generateOrderStatusFailedClearHTML = (message: string) => {
+  return `
+❌ <b>Failed to clear order status</b> ❌
+
+<b>Reason</b>: ${message}
+
+`;
+};
