@@ -29,7 +29,11 @@ createOrderUnitOfTimeScene.action('createorder_back', async (ctx) => {
   ctx.session.orderToCreate.unitOfTime = undefined;
 
   await ctx.scene.leave();
-  await ctx.scene.enter('createorder_desiredtoken');
+  if (ctx.session.orderToCreate.isLimitOrder) {
+    await ctx.scene.enter('createorder_market_cap');
+  } else {
+    await ctx.scene.enter('createorder_desiredtoken');
+  }
 });
 
 createOrderUnitOfTimeScene.action('createorder_hourly', async (ctx) => {

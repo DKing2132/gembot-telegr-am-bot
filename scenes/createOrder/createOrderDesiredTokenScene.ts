@@ -22,6 +22,7 @@ createOrderDesiredTokenScene.enter(async (ctx) => {
     Markup.inlineKeyboard(buttonsKeyboard)
   );
 });
+
 createOrderDesiredTokenScene.action('createorder_back', async (ctx) => {
   ctx.session.orderToCreate.desiredTokenAddress = undefined;
   ctx.session.orderToCreate.isNativeETH = undefined;
@@ -45,7 +46,12 @@ createOrderDesiredTokenScene.hears(/^0x[0-9a-fA-F]{40}$/, async (ctx) => {
   ctx.session.orderToCreate.desiredTokenAddress = ctx.message.text;
 
   await ctx.scene.leave();
-  await ctx.scene.enter('createorder_unit_of_time');
+
+  if (!ctx.session.orderToCreate.isLimitOrder) {
+    await ctx.scene.enter('createorder_unit_of_time');
+  } else {
+    await ctx.scene.enter('createorder_market_cap');
+  }
 });
 
 createOrderDesiredTokenScene.action('createorder_eth_desired', async (ctx) => {

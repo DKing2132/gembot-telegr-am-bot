@@ -44,6 +44,7 @@ import { collectFundsConfirmScene } from './scenes/collectFunds/collectFundsConf
 import { settingsLinkWalletScene } from './scenes/settings/settingsLinkWalletScene';
 import { settingsLinkWalletConfirmScene } from './scenes/settings/settingsLinkWalletConfirmScene';
 import { orderStatusScene } from './scenes/orderStatus/orderStatusScene';
+import { createOrderMarketCapScene } from './scenes/createOrder/createOrderMarketCapScene';
 
 const bot = new Telegraf<DCAContext>(token);
 bot.telegram.setMyCommands([
@@ -60,6 +61,7 @@ const dcaStage = new Scenes.Stage<DCAContext>(
     createOrderDAIScene,
     createOrderUSDTScene,
     createOrderDesiredTokenScene,
+    createOrderMarketCapScene,
     createOrderUnitOfTimeScene,
     createOrderFrequencyScene,
     createOrderWalletScene,

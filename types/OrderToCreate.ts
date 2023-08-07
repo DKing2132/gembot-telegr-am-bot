@@ -8,4 +8,6 @@ export type OrderToCreate = {
   isNativeETH?: boolean;
   unitOfTime?: UnitOfTime;
   frequency?: number;
+  isLimitOrder?: boolean;
+  marketCapTarget?: number;
 };

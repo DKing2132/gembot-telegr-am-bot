@@ -12,6 +12,7 @@ import { tokenAPIRoute } from './routes';
 import { TokenResponse } from './types/responses/TokenResponse';
 import { fetchWithTimeout } from './network';
 import { OrderStatusHistoryResponse } from './types/responses/OrderStatusHistoryResponse';
+import BigNumber from 'bignumber.js';
 
 const unitOfTimeConverter = (unitOfTime: UnitOfTime) => {
   if (unitOfTime === 'HOURS') {
@@ -63,6 +64,25 @@ const getTokenName = async (tokenAddress: string, isNativeETH: boolean) => {
       console.log(e);
       return tokenAddress;
     }
+  }
+};
+
+export const getMarketCapInText = (marketCap: string) => {
+  const marketCapBN = new BigNumber(marketCap);
+  if (
+    marketCapBN.isGreaterThanOrEqualTo(10 ** 3) &&
+    marketCapBN.isLessThan(10 ** 6)
+  ) {
+    return `${marketCapBN.dividedBy(10 ** 3).toFixed(2)}K`;
+  } else if (
+    marketCapBN.isGreaterThanOrEqualTo(10 && 6) &&
+    marketCapBN.isLessThan(10 ** 9)
+  ) {
+    return `${marketCapBN.dividedBy(10 ** 6).toFixed(2)}M`;
+  } else if (marketCapBN.isGreaterThanOrEqualTo(10 ** 9)) {
+    return `${marketCapBN.dividedBy(10 ** 9).toFixed(2)}B`;
+  } else {
+    return marketCap;
   }
 };
 
@@ -132,9 +152,27 @@ Private Key:
 `;
 };
 
-export const generateCreateOrderHTML = () => {
+export const generateCreateOrderTypeHTML = () => {
   return `
-<b>Creating Order</b>🚀
+🚀 <b>Creating Order</b> 🚀
+
+Please select order type:
+
+`;
+};
+
+export const generateCreateDefaultOrderHTML = () => {
+  return `
+🚀 <b>Creating DCA Order</b> 🚀
+
+Please select token to deposit:
+
+`;
+};
+
+export const generateCreateLimitOrderHTML = () => {
+  return `
+🚀 <b>Creating Limit DCA Order</b> 🚀
 
 Please select token to deposit:
 
@@ -168,8 +206,15 @@ Please confirm your order:
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime!)}
 <b>Frequency</b>: ${order.frequency}
 <b>Wallet</b>: ${order.walletOwnerAddress}
+${
+  order.isLimitOrder
+    ? `<b>Target Market Cap</b> : ${getMarketCapInText(
+        order.marketCapTarget!.toString()
+      )}`
+    : ''
+}
 
-⚠️ <i>Please make sure you have enough ETH to cover gas for transactions</i> ⚠️
+⚠️ <i>Please make sure you have enough ETH to cover gas for transactions in your wallet</i> ⚠️
 `;
 };
 
@@ -216,6 +261,7 @@ export const generateActiveOrdersHTML = async (
   if (orders.wallet1Orders.length > 0) {
     for (const order of orders.wallet1Orders) {
       text += `
+${order.isLimitOrder ? `<b>[LIMIT ORDER]</b>` : ''}
 <b>Order ID</b>: <code>${order.orderID}</code>
 <b>Deposited Token</b>: ${await getTokenName(
         order.depositedTokenAddress,
@@ -228,7 +274,13 @@ export const generateActiveOrdersHTML = async (
 <b>Remaining Deposited Amount</b>: ${order.depositedTokenAmount}
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
 <b>Transactions Remaining</b>: ${order.frequency}
-
+${
+  order.isLimitOrder
+    ? `<b>Target Market Cap</b>: ${getMarketCapInText(
+        order.marketCapTarget!.toString()
+      )}`
+    : ''
+}
 `;
     }
   } else {
@@ -242,6 +294,7 @@ export const generateActiveOrdersHTML = async (
   if (orders.wallet2Orders.length > 0) {
     for (const order of orders.wallet2Orders) {
       text += `
+${order.isLimitOrder ? `<b>[LIMIT ORDER]</b>` : ''}
 <b>Order ID</b>: <code>${order.orderID}</code>
 <b>Deposited Token</b>: ${await getTokenName(
         order.depositedTokenAddress,
@@ -254,7 +307,13 @@ export const generateActiveOrdersHTML = async (
 <b>Remaining Deposited Amount</b>: ${order.depositedTokenAmount}
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
 <b>Transactions Remaining</b>: ${order.frequency}
-
+${
+  order.isLimitOrder
+    ? `<b>Target Market Cap</b>: ${getMarketCapInText(
+        order.marketCapTarget!.toString()
+      )}`
+    : ''
+}
 `;
     }
   } else {
@@ -268,6 +327,7 @@ export const generateActiveOrdersHTML = async (
   if (orders.wallet3Orders.length > 0) {
     for (const order of orders.wallet3Orders) {
       text += `
+${order.isLimitOrder ? `<b>[LIMIT ORDER]</b>` : ''}
 <b>Order ID</b>: <code>${order.orderID}</code>
 <b>Deposited Token</b>: ${await getTokenName(
         order.depositedTokenAddress,
@@ -280,7 +340,13 @@ export const generateActiveOrdersHTML = async (
 <b>Remaining Deposited Amount</b>: ${order.depositedTokenAmount}
 <b>Unit of Time</b>: ${unitOfTimeConverter(order.unitOfTime)}
 <b>Transactions Remaining</b>: ${order.frequency}
-
+${
+  order.isLimitOrder
+    ? `<b>Target Market Cap</b>: ${getMarketCapInText(
+        order.marketCapTarget!.toString()
+      )}`
+    : ''
+}
 `;
     }
   } else {
@@ -367,7 +433,7 @@ Are you sure you want to update the following order:
 
 ${
   order.field === 'depositedTokenAmount'
-    ? '⚠️ <i>Please make sure you have enough ETH to cover gas for transactions</i> ⚠️'
+    ? '⚠️ <i>Please make sure you have enough ETH to cover gas for transactions in your wallet</i> ⚠️'
     : ''
 }
 `;
@@ -417,7 +483,7 @@ Are you sure you want to perform the following buy:
     buyOrder.isNativeETH!
   )}
 
-⚠️ <i>Please make sure you have enough ETH to cover gas for transactions</i> ⚠️
+⚠️ <i>Please make sure you have enough ETH to cover gas for transactions in your wallet</i> ⚠️
 `;
 };
 
@@ -476,7 +542,7 @@ Are you sure you want to perform the following sell:
     sellOrder.isNativeETH!
   )}
 
-⚠️ <i>Please make sure you have enough ETH to cover gas for transactions</i> ⚠️
+⚠️ <i>Please make sure you have enough ETH to cover gas for transactions in your wallet</i> ⚠️
 `;
 };
 
@@ -741,6 +807,31 @@ export const generateOrderStatusFailedClearHTML = (message: string) => {
 ❌ <b>Failed to clear order status</b> ❌
 
 <b>Reason</b>: ${message}
+
+`;
+};
+
+export const generateTokenMarketCapFailedHTML = (message: string) => {
+  return `
+❌ <b>Failed to get Token Market Cap</b> ❌
+
+<b>Reason</b>: ${message}
+
+`;
+};
+
+export const generateTokenMarketCapHTML = async (
+  desiredTokenAddress: string,
+  isNativeETH: boolean,
+  tokenMarketCap: string
+) => {
+  return `
+<b> ${await getTokenName(
+    desiredTokenAddress,
+    isNativeETH
+  )}'s Current Market Cap </b>: $${getMarketCapInText(tokenMarketCap)}
+
+Please select the unit of your target market cap:
 
 `;
 };

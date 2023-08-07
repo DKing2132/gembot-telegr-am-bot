@@ -7,6 +7,7 @@ import { CollectFunds } from '../types/CollectFunds';
 
 interface DCASession extends Scenes.SceneSession {
   orderToCreate: OrderToCreate;
+  amountUnit?: 'billions' | 'millions' | 'thousands';
   orderToDelete: string;
   withdrawable: Withdrawable;
   orderToUpdate: OrderToUpdate;
