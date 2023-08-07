@@ -68,6 +68,10 @@ const getTokenName = async (tokenAddress: string, isNativeETH: boolean) => {
 };
 
 export const getMarketCapInText = (marketCap: string) => {
+  if (marketCap === '') {
+    return 'Unknown';
+  }
+
   const marketCapBN = new BigNumber(marketCap);
   if (
     marketCapBN.isGreaterThanOrEqualTo(10 ** 3) &&
@@ -428,6 +432,8 @@ Are you sure you want to update the following order:
       ? unitOfTimeConverter(order.value! as UnitOfTime)
       : order.field === 'desiredToken'
       ? await getTokenName(order.value as string, false)
+      : order.field === 'marketCapTarget'
+      ? getMarketCapInText((order.value as number).toString())
       : order.value
   }
 

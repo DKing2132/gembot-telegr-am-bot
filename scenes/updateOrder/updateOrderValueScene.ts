@@ -3,7 +3,10 @@ import { DCAContext } from '../../context/DCAContext';
 import { temporaryHTMLReply, temporaryReply } from '../../replies';
 import { backButton } from '../../keyboard/backButton';
 import { UnitOfTime } from '../../types/UnitOfTime';
-import { generateUpdateOrderInvalidValueTypeHTML } from '../../html';
+import {
+  generateUpdateOrderInvalidValueTypeHTML,
+  getMarketCapInText,
+} from '../../html';
 
 export const updateOrderValueScene = new Scenes.BaseScene<DCAContext>(
   'updateorder_value'
@@ -24,6 +27,9 @@ updateOrderValueScene.enter(async (ctx) => {
   } else if (ctx.session.orderToUpdate.field === 'frequency') {
     isNumber = true;
     refString = 'frequency';
+  } else if (ctx.session.orderToUpdate.field === 'marketCapTarget') {
+    isAmount = true;
+    refString = 'value';
   }
 
   if (
@@ -52,12 +58,66 @@ updateOrderValueScene.enter(async (ctx) => {
         [backButton('updateorder_value_back')],
       ])
     );
+  } else if (ctx.session.orderToUpdate.field === 'marketCapTarget') {
+    await temporaryReply(
+      ctx,
+      `This order's current target market cap is ${getMarketCapInText(
+        ctx.session.orderToUpdate.order?.marketCapTarget?.toString() ?? ''
+      )}. Please select the unit of your new target market cap:`,
+      Markup.inlineKeyboard([
+        [
+          Markup.button.callback('Billions', 'billions'),
+          Markup.button.callback('Millions', 'millions'),
+          Markup.button.callback('Thousands', 'thousands'),
+        ],
+        [backButton('updateorder_value_back')],
+      ])
+    );
   }
+});
+
+updateOrderValueScene.action('billions', async (ctx) => {
+  ctx.session.amountUnit = 'billions';
+
+  await temporaryReply(
+    ctx,
+    'Please enter your new target market cap:',
+    Markup.inlineKeyboard([backButton('updateorder_value_re_enter')])
+  );
+});
+
+updateOrderValueScene.action('millions', async (ctx) => {
+  ctx.session.amountUnit = 'millions';
+
+  await temporaryReply(
+    ctx,
+    'Please enter your new target market cap:',
+    Markup.inlineKeyboard([backButton('updateorder_value_re_enter')])
+  );
+});
+
+updateOrderValueScene.action('thousands', async (ctx) => {
+  ctx.session.amountUnit = 'thousands';
+
+  await temporaryReply(
+    ctx,
+    'Please enter your new target market cap:',
+    Markup.inlineKeyboard([backButton('updateorder_value_re_enter')])
+  );
+});
+
+updateOrderValueScene.action('updateorder_value_re_enter', async (ctx) => {
+  ctx.session.orderToUpdate.field = undefined;
+  ctx.session.orderToUpdate.value = undefined;
+  ctx.session.amountUnit = undefined;
+
+  await ctx.scene.reenter();
 });
 
 updateOrderValueScene.action('updateorder_value_back', async (ctx) => {
   ctx.session.orderToUpdate.field = undefined;
   ctx.session.orderToUpdate.value = undefined;
+  ctx.session.amountUnit = undefined;
 
   await ctx.scene.leave();
   await ctx.scene.enter('updateorder_selectfield');
@@ -110,6 +170,21 @@ updateOrderValueScene.hears(/^0x[0-9a-fA-F]{40}$/, async (ctx) => {
 updateOrderValueScene.hears(/^\d+(\.\d{1,6})?$/, async (ctx) => {
   if (isAmount || isNumber) {
     ctx.session.orderToUpdate.value = Number(ctx.message.text);
+
+    if (ctx.session.orderToUpdate.field === 'marketCapTarget') {
+      let multiplier: number;
+      if (ctx.session.amountUnit === 'billions') {
+        multiplier = 10 ** 9;
+      } else if (ctx.session.amountUnit === 'millions') {
+        multiplier = 10 ** 6;
+      } else if (ctx.session.amountUnit === 'thousands') {
+        multiplier = 10 ** 3;
+      } else {
+        multiplier = 1;
+      }
+
+      ctx.session.orderToUpdate.value *= multiplier;
+    }
 
     await ctx.scene.leave();
     await ctx.scene.enter('updateorder_confirm');

@@ -40,7 +40,12 @@ updateOrderConfirmScene.action('updateorder_confirm', async (ctx) => {
         'Content-Type': 'application/json',
         'genesis-bot-user-id': ctx.from!.id.toString(),
       },
-      body: JSON.stringify(ctx.session.orderToUpdate),
+      body: JSON.stringify({
+        orderID: ctx.session.orderToUpdate.orderID,
+        field: ctx.session.orderToUpdate.field,
+        value: ctx.session.orderToUpdate.value,
+        isLimitOrder: ctx.session.orderToUpdate.isLimitOrder,
+      }),
     });
 
     if (response.ok) {
