@@ -701,6 +701,7 @@ export const generateOrderStatusesHTML = async (
   if (orderStatuses.wallet1Orders.length > 0) {
     for (const order of orderStatuses.wallet1Orders) {
       text += `
+${order.isLimitOrder ? `<b>[LIMIT ORDER]</b>` : ''}
 <b>Order ID</b>: <code>${order.orderId}</code>
 <b>Deposited Token</b>: ${await getTokenName(
         order.depositedTokenAddress,
@@ -716,7 +717,13 @@ export const generateOrderStatusesHTML = async (
 <b>Status</b>: ${order.status} - ${order.message}
 <b>Last Updated (UTC)</b>: ${getDateInNiceFormat(order.lastUpdatedAt)}
 <b>Next Update (UTC)</b>: ${getDateInNiceFormat(order.nextUpdateAt)}
-
+${
+  order.isLimitOrder
+    ? `<b>Target Market Cap</b>: ${getMarketCapInText(
+        order.marketCapTarget!.toString()
+      )}`
+    : ''
+}
 `;
     }
   } else {
@@ -730,6 +737,7 @@ export const generateOrderStatusesHTML = async (
   if (orderStatuses.wallet2Orders.length > 0) {
     for (const order of orderStatuses.wallet2Orders) {
       text += `
+${order.isLimitOrder ? `<b>[LIMIT ORDER]</b>` : ''}
 <b>Order ID</b>: <code>${order.orderId}</code>
 <b>Deposited Token</b>: ${await getTokenName(
         order.depositedTokenAddress,
@@ -745,7 +753,13 @@ export const generateOrderStatusesHTML = async (
 <b>Status</b>: ${order.status} - ${order.message}
 <b>Last Updated (UTC)</b>: ${getDateInNiceFormat(order.lastUpdatedAt)}
 <b>Next Update (UTC)</b>: ${getDateInNiceFormat(order.nextUpdateAt)}
-
+${
+  order.isLimitOrder
+    ? `<b>Target Market Cap</b>: ${getMarketCapInText(
+        order.marketCapTarget!.toString()
+      )}`
+    : ''
+}
 `;
     }
   } else {
@@ -759,6 +773,7 @@ export const generateOrderStatusesHTML = async (
   if (orderStatuses.wallet3Orders.length > 0) {
     for (const order of orderStatuses.wallet3Orders) {
       text += `
+${order.isLimitOrder ? `<b>[LIMIT ORDER]</b>` : ''}
 <b>Order ID</b>: <code>${order.orderId}</code>
 <b>Deposited Token</b>: ${await getTokenName(
         order.depositedTokenAddress,
@@ -774,7 +789,13 @@ export const generateOrderStatusesHTML = async (
 <b>Status</b>: ${order.status} - ${order.message}
 <b>Last Updated (UTC)</b>: ${getDateInNiceFormat(order.lastUpdatedAt)}
 <b>Next Update (UTC)</b>: ${getDateInNiceFormat(order.nextUpdateAt)}
-
+${
+  order.isLimitOrder
+    ? `<b>Target Market Cap</b>: ${getMarketCapInText(
+        order.marketCapTarget!.toString()
+      )}`
+    : ''
+}
 `;
     }
   } else {

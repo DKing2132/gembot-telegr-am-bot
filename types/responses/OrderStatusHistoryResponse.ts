@@ -1,4 +1,4 @@
-import { UnitOfTime } from "../UnitOfTime";
+import { UnitOfTime } from '../UnitOfTime';
 
 export type OrderStatusHistoryResponse = {
   wallet1Orders: OrderStatusTrack[];
@@ -19,4 +19,6 @@ export type OrderStatusTrack = {
   walletOwnerAddress: string;
   message: string;
   isNativeETH: boolean;
+  isLimitOrder?: boolean;
+  marketCapTarget?: string;
 };
